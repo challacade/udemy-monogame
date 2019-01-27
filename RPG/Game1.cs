@@ -119,7 +119,30 @@ namespace RPG
             if (player.Health > 0)
                 player.Update(gameTime);
 
-            cam.LookAt(player.Position);
+            float tempX = player.Position.X;
+            float tempY = player.Position.Y;
+            int camW = graphics.PreferredBackBufferWidth;
+            int camH = graphics.PreferredBackBufferHeight;
+            int mapW = myMap.WidthInPixels;
+            int mapH = myMap.HeightInPixels;
+
+            if (tempX < camW / 2) {
+                tempX = camW / 2;
+            }
+
+            if (tempY < camH / 2) {
+                tempY = camH / 2;
+            }
+
+            if (tempX > (mapW - (camW / 2))) {
+                tempX = (mapW - (camW / 2));
+            }
+
+            if (tempY > (mapH - (camH / 2))) {
+                tempY = (mapH - (camH / 2));
+            }
+
+            cam.LookAt(new Vector2(tempX, tempY));
 
             foreach (Projectile proj in Projectile.projectiles) {
                 proj.Update(gameTime);
