@@ -100,25 +100,25 @@ namespace RPG
                 {
                     case Dir.Right:
                         tempPos.X += speed * dt;
-                        if (!Obstacle.didCollide(tempPos, radius)) {
+                        if (!Obstacle.didCollide(tempPos, radius) && tempPos.X < mapW) {
                             position.X += speed * dt;
                         }
                         break;
                     case Dir.Left:
                         tempPos.X -= speed * dt;
-                        if (!Obstacle.didCollide(tempPos, radius)) {
+                        if (!Obstacle.didCollide(tempPos, radius) && tempPos.X > 0) {
                             position.X -= speed * dt;
                         }
                         break;
                     case Dir.Down:
                         tempPos.Y += speed * dt;
-                        if (!Obstacle.didCollide(tempPos, radius)) {
+                        if (!Obstacle.didCollide(tempPos, radius) && tempPos.Y < mapH) {
                             position.Y += speed * dt;
                         }
                         break;
                     case Dir.Up:
                         tempPos.Y -= speed * dt;
-                        if (!Obstacle.didCollide(tempPos, radius)) {
+                        if (!Obstacle.didCollide(tempPos, radius) && tempPos.Y > 0) {
                             position.Y -= speed * dt;
                         }
                         break;
