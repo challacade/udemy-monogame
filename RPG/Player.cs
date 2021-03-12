@@ -1,46 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace RPG
+namespace rpg
 {
     class Player
     {
-        private Vector2 position = new Vector2(1000, 1000);
-        private int health = 3;
-        private int speed = 200;
+        private Vector2 position = new Vector2(500, 300);
+        private int speed = 400;
         private Dir direction = Dir.Down;
         private bool isMoving = false;
         private KeyboardState kStateOld = Keyboard.GetState();
-        private int radius = 56;
-        private float healthTimer = 0f;
+        public bool dead = false;
 
-        public AnimatedSprite anim;
-        public AnimatedSprite[] animations = new AnimatedSprite[4];
+        public SpriteAnimation anim;
 
-        public float HealthTimer {
-            get { return healthTimer; }
-            set { healthTimer = value; }
-        }
-
-        public int Radius {
-            get { return radius; }
-        }
-
-        public int Health {
-            get {
-                return health;
-            }
-            set {
-                health = value;
-            }
-        }
+        public SpriteAnimation[] animations = new SpriteAnimation[4];
 
         public Vector2 Position {
             get {
@@ -60,16 +39,6 @@ namespace RPG
             KeyboardState kState = Keyboard.GetState();
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (healthTimer > 0)
-                healthTimer -= dt;
-
-            anim = animations[(int)direction];
-
-            if (isMoving)
-                anim.Update(gameTime);
-            else
-                anim.setFrame(1);
-
             isMoving = false;
 
             if (kState.IsKeyDown(Keys.Right)) {
@@ -77,59 +46,66 @@ namespace RPG
                 isMoving = true;
             }
 
-            if (kState.IsKeyDown(Keys.Left)) {
+            if (kState.IsKeyDown(Keys.Left))
+            {
                 direction = Dir.Left;
                 isMoving = true;
             }
 
-            if (kState.IsKeyDown(Keys.Up)) {
+            if (kState.IsKeyDown(Keys.Up))
+            {
                 direction = Dir.Up;
                 isMoving = true;
             }
 
-            if (kState.IsKeyDown(Keys.Down)) {
+            if (kState.IsKeyDown(Keys.Down))
+            {
                 direction = Dir.Down;
                 isMoving = true;
             }
 
+            if (kState.IsKeyDown(Keys.Space))
+                isMoving = false;
+
+            if (dead)
+                isMoving = false;
+
             if (isMoving)
             {
-                Vector2 tempPos = position;
-
                 switch (direction)
                 {
                     case Dir.Right:
-                        tempPos.X += speed * dt;
-                        if (!Obstacle.didCollide(tempPos, radius) && tempPos.X < mapW) {
+                        if (position.X < 1275)
                             position.X += speed * dt;
-                        }
                         break;
                     case Dir.Left:
-                        tempPos.X -= speed * dt;
-                        if (!Obstacle.didCollide(tempPos, radius) && tempPos.X > 0) {
+                        if (position.X > 225)
                             position.X -= speed * dt;
-                        }
                         break;
                     case Dir.Down:
-                        tempPos.Y += speed * dt;
-                        if (!Obstacle.didCollide(tempPos, radius) && tempPos.Y < mapH) {
+                        if (position.Y < 1250)
                             position.Y += speed * dt;
-                        }
                         break;
                     case Dir.Up:
-                        tempPos.Y -= speed * dt;
-                        if (!Obstacle.didCollide(tempPos, radius) && tempPos.Y > 0) {
+                        if (position.Y > 200)
                             position.Y -= speed * dt;
-                        }
-                        break;
-                    default:
                         break;
                 }
             }
 
-            if (kState.IsKeyDown(Keys.Space) && kStateOld.IsKeyUp(Keys.Space)) {
+            anim = animations[(int)direction];
+
+            anim.Position = new Vector2(position.X - 48, position.Y - 48);
+
+            if (kState.IsKeyDown(Keys.Space))
+                anim.setFrame(0);
+            else if (isMoving)
+                anim.Update(gameTime);
+            else
+                anim.setFrame(1);
+
+            if (kState.IsKeyDown(Keys.Space) && kStateOld.IsKeyUp(Keys.Space))
                 Projectile.projectiles.Add(new Projectile(position, direction));
-            }
 
             kStateOld = kState;
         }

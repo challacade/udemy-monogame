@@ -2,11 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using MonoGame.Extended;
-using MonoGame.Extended.Tiled;
-using MonoGame.Extended.Tiled.Graphics;
+using Comora;
 
-namespace RPG
+namespace rpg
 {
     enum Dir {
         Down,
@@ -17,98 +15,61 @@ namespace RPG
 
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
 
-        Texture2D player_Sprite;
-        Texture2D playerDown;
-        Texture2D playerUp;
-        Texture2D playerLeft;
-        Texture2D playerRight;
+        Texture2D playerSprite;
+        Texture2D walkDown;
+        Texture2D walkUp;
+        Texture2D walkRight;
+        Texture2D walkLeft;
 
-        Texture2D eyeEnemy_Sprite;
-        Texture2D snakeEnemy_Sprite;
-        Texture2D bush_Sprite;
-        Texture2D tree_Sprite;
-
-        Texture2D heart_Sprite;
-        Texture2D bullet_Sprite;
-
-        TiledMapRenderer mapRenderer;
-        TiledMap myMap;
-
-        Camera2D cam;
+        Texture2D background;
+        Texture2D ball;
+        Texture2D skull;
 
         Player player = new Player();
 
+        Camera camera;
+
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
+            IsMouseVisible = true;
         }
 
         protected override void Initialize()
         {
-            mapRenderer = new TiledMapRenderer(GraphicsDevice);
-            cam = new Camera2D(GraphicsDevice);
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.ApplyChanges();
+
+            this.camera = new Camera(_graphics.GraphicsDevice);
 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            player_Sprite = Content.Load<Texture2D>("Player/player");
-            playerDown = Content.Load<Texture2D>("Player/playerDown");
-            playerUp = Content.Load<Texture2D>("Player/playerUp");
-            playerLeft = Content.Load<Texture2D>("Player/playerLeft");
-            playerRight = Content.Load<Texture2D>("Player/playerRight");
+            playerSprite = Content.Load<Texture2D>("Player/player");
+            walkDown = Content.Load<Texture2D>("Player/walkDown");
+            walkRight = Content.Load<Texture2D>("Player/walkRight");
+            walkLeft = Content.Load<Texture2D>("Player/walkLeft");
+            walkUp = Content.Load<Texture2D>("Player/walkUp");
 
-            eyeEnemy_Sprite = Content.Load<Texture2D>("Enemies/eyeEnemy");
-            snakeEnemy_Sprite = Content.Load<Texture2D>("Enemies/snakeEnemy");
+            background = Content.Load<Texture2D>("background");
+            ball = Content.Load<Texture2D>("ball");
+            skull = Content.Load<Texture2D>("skull");
 
-            bush_Sprite = Content.Load<Texture2D>("Obstacles/bush");
-            tree_Sprite = Content.Load<Texture2D>("Obstacles/tree");
+            player.animations[0] = new SpriteAnimation(walkDown, 4, 8);
+            player.animations[1] = new SpriteAnimation(walkUp, 4, 8);
+            player.animations[2] = new SpriteAnimation(walkLeft, 4, 8);
+            player.animations[3] = new SpriteAnimation(walkRight, 4, 8);
 
-            bullet_Sprite = Content.Load<Texture2D>("Misc/bullet");
-            heart_Sprite = Content.Load<Texture2D>("Misc/heart");
-
-            player.animations[0] = new AnimatedSprite(playerDown, 1, 4);
-            player.animations[1] = new AnimatedSprite(playerUp, 1, 4);
-            player.animations[2] = new AnimatedSprite(playerLeft, 1, 4);
-            player.animations[3] = new AnimatedSprite(playerRight, 1, 4);
-
-            myMap = Content.Load<TiledMap>("Misc/gameMap");
-
-            TiledMapObject[] allEnemies = myMap.GetLayer<TiledMapObjectLayer>("enemies").Objects;
-            foreach (var en in allEnemies) {
-                string type;
-                en.Properties.TryGetValue("Type", out type);
-                if (type == "Snake")
-                    Enemy.enemies.Add(new Snake(en.Position));
-                else if (type == "Eye")
-                    Enemy.enemies.Add(new Eye(en.Position));
-            }
-
-            TiledMapObject[] allObstacles = myMap.GetLayer<TiledMapObjectLayer>("obstacles").Objects;
-            foreach (var obj in allObstacles) {
-                string type;
-                obj.Properties.TryGetValue("Type", out type);
-                if (type == "Tree")
-                    Obstacle.obstacles.Add(new Tree(obj.Position));
-                else if (type == "Bush")
-                    Obstacle.obstacles.Add(new Bush(obj.Position));
-            }
-        }
-
-        protected override void UnloadContent()
-        {
-            // TODO: Unload any non ContentManager content here
+            player.anim = player.animations[0];
         }
 
         protected override void Update(GameTime gameTime)
@@ -116,119 +77,59 @@ namespace RPG
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (player.Health > 0)
-                player.Update(gameTime);
+            player.Update(gameTime);
+            if (!player.dead)
+                Controller.Update(gameTime, skull);
 
-            float tempX = player.Position.X;
-            float tempY = player.Position.Y;
-            int camW = graphics.PreferredBackBufferWidth;
-            int camH = graphics.PreferredBackBufferHeight;
-            int mapW = myMap.WidthInPixels;
-            int mapH = myMap.HeightInPixels;
-
-            if (tempX < camW / 2) {
-                tempX = camW / 2;
-            }
-
-            if (tempY < camH / 2) {
-                tempY = camH / 2;
-            }
-
-            if (tempX > (mapW - (camW / 2))) {
-                tempX = (mapW - (camW / 2));
-            }
-
-            if (tempY > (mapH - (camH / 2))) {
-                tempY = (mapH - (camH / 2));
-            }
-
-            cam.LookAt(new Vector2(tempX, tempY));
+            this.camera.Position = player.Position;
+            this.camera.Update(gameTime);
 
             foreach (Projectile proj in Projectile.projectiles) {
                 proj.Update(gameTime);
             }
 
-            foreach (Enemy en in Enemy.enemies) {
-                en.Update(gameTime, player.Position);
+            foreach (Enemy e in Enemy.enemies) {
+                e.Update(gameTime, player.Position, player.dead);
+                int sum = 32 + e.radius;
+                if (Vector2.Distance(player.Position, e.Position) < sum) {
+                    player.dead = true;
+                }
             }
 
             foreach (Projectile proj in Projectile.projectiles) {
-                foreach (Enemy en in Enemy.enemies) {
-                    int sum = proj.Radius + en.Radius;
-                    if (Vector2.Distance(proj.Position, en.Position) < sum) {
+                foreach (Enemy enemy in Enemy.enemies) {
+                    int sum = proj.radius + enemy.radius;
+                    if (Vector2.Distance(proj.Position, enemy.Position) < sum) {
                         proj.Collided = true;
-                        en.Health--;
+                        enemy.Dead = true;
                     }
-                }
-
-                if (Obstacle.didCollide(proj.Position, proj.Radius)) {
-                    proj.Collided = true;
-                }
-            }
-
-            foreach (Enemy en in Enemy.enemies) {
-                int sum = player.Radius + en.Radius;
-                if (Vector2.Distance(player.Position, en.Position) < sum && player.HealthTimer <= 0) {
-                    player.Health--;
-                    player.HealthTimer = 1.5f;
                 }
             }
 
             Projectile.projectiles.RemoveAll(p => p.Collided);
-            Enemy.enemies.RemoveAll(e => e.Health <= 0);
+            Enemy.enemies.RemoveAll(e => e.Dead);
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.ForestGreen);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            mapRenderer.Draw(myMap, cam.GetViewMatrix());
+            _spriteBatch.Begin(this.camera);
 
-            spriteBatch.Begin(transformMatrix: cam.GetViewMatrix());
-
-            if (player.Health > 0)
-                player.anim.Draw(spriteBatch, new Vector2(player.Position.X - 48, player.Position.Y - 48));
-
-            foreach (Enemy en in Enemy.enemies) {
-                Texture2D spriteToDraw;
-                int rad;
-
-                if (en.GetType() == typeof(Snake)) {
-                    spriteToDraw = snakeEnemy_Sprite;
-                    rad = 50;
-                } else {
-                    spriteToDraw = eyeEnemy_Sprite;
-                    rad = 73;
-                }
-
-                spriteBatch.Draw(spriteToDraw, new Vector2(en.Position.X - rad, en.Position.Y - rad), Color.White);
+            _spriteBatch.Draw(background, new Vector2(-500, -500), Color.White);
+            foreach (Enemy e in Enemy.enemies) {
+                e.anim.Draw(_spriteBatch);
             }
-
-            foreach (Obstacle o in Obstacle.obstacles) {
-                Texture2D spriteToDraw;
-                if (o.GetType() == typeof(Tree))
-                    spriteToDraw = tree_Sprite;
-                else
-                    spriteToDraw = bush_Sprite;
-                spriteBatch.Draw(spriteToDraw, o.Position, Color.White);
-            }
-
-            foreach (Projectile proj in Projectile.projectiles) {
-                spriteBatch.Draw(bullet_Sprite, new Vector2(proj.Position.X - proj.Radius, proj.Position.Y - proj.Radius), Color.White);
-            }
-
-            spriteBatch.End();
-
-            spriteBatch.Begin();
-
-            for (int i = 0; i < player.Health; i++)
+            foreach (Projectile proj in Projectile.projectiles)
             {
-                spriteBatch.Draw(heart_Sprite, new Vector2(3 + i * 63, 3), Color.White);
+                _spriteBatch.Draw(ball, new Vector2(proj.Position.X - 48, proj.Position.Y - 48), Color.White);
             }
+            if (!player.dead)
+                player.anim.Draw(_spriteBatch);
 
-            spriteBatch.End();
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

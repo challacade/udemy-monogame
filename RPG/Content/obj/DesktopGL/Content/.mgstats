@@ -1,0 +1,9 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/kylej/source/repos/rpg/Content/background.png","C:/Users/kylej/source/repos/rpg/Content/bin/DesktopGL/Content/background.xnb","TextureProcessor","Texture2DContent",70634,24920149,1.7916847
+"C:/Users/kylej/source/repos/rpg/Content/ball.png","C:/Users/kylej/source/repos/rpg/Content/bin/DesktopGL/Content/ball.xnb","TextureProcessor","Texture2DContent",699,36949,0.0078371
+"C:/Users/kylej/source/repos/rpg/Content/Player/player.png","C:/Users/kylej/source/repos/rpg/Content/bin/DesktopGL/Content/Player/player.xnb","TextureProcessor","Texture2DContent",1072,36949,0.0097061
+"C:/Users/kylej/source/repos/rpg/Content/Player/walkDown.png","C:/Users/kylej/source/repos/rpg/Content/bin/DesktopGL/Content/Player/walkDown.xnb","TextureProcessor","Texture2DContent",5078,147541,0.0149174
+"C:/Users/kylej/source/repos/rpg/Content/Player/walkLeft.png","C:/Users/kylej/source/repos/rpg/Content/bin/DesktopGL/Content/Player/walkLeft.xnb","TextureProcessor","Texture2DContent",5640,147541,0.0112236
+"C:/Users/kylej/source/repos/rpg/Content/Player/walkRight.png","C:/Users/kylej/source/repos/rpg/Content/bin/DesktopGL/Content/Player/walkRight.xnb","TextureProcessor","Texture2DContent",5308,147541,0.0109322
+"C:/Users/kylej/source/repos/rpg/Content/Player/walkUp.png","C:/Users/kylej/source/repos/rpg/Content/bin/DesktopGL/Content/Player/walkUp.xnb","TextureProcessor","Texture2DContent",4574,147541,0.0120798
+"C:/Users/kylej/source/repos/rpg/Content/skull.png","C:/Users/kylej/source/repos/rpg/Content/bin/DesktopGL/Content/skull.xnb","TextureProcessor","Texture2DContent",9601,506965,0.0299224
