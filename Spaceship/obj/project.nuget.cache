@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "a46eVkqskn3ztqsq/90Ox2mYWnxh3GVncKl+hv6c6T4XuGJKriXoTprsudTLIdf5FSa+I1X2HCgDuzQmmrGTHg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\kylej\\source\\repos\\Spaceship\\Spaceship.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\kylej\\.nuget\\packages\\monogame.content.builder.task\\3.8.0.1641\\monogame.content.builder.task.3.8.0.1641.nupkg.sha512",
+    "C:\\Users\\kylej\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.0.1641\\monogame.framework.desktopgl.3.8.0.1641.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,5 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/kylej/source/repos/ShootingGallery/Content/crosshairs.png","C:/Users/kylej/source/repos/ShootingGallery/Content/bin/DesktopGL/crosshairs.xnb","TextureProcessor","Texture2DContent",1892,10085,0.2666248
+"C:/Users/kylej/source/repos/ShootingGallery/Content/galleryFont.spritefont","C:/Users/kylej/source/repos/ShootingGallery/Content/bin/DesktopGL/galleryFont.xnb","FontDescriptionProcessor","SpriteFontContent",2065,70690,0.1631932
+"C:/Users/kylej/source/repos/ShootingGallery/Content/sky.png","C:/Users/kylej/source/repos/ShootingGallery/Content/bin/DesktopGL/sky.xnb","TextureProcessor","Texture2DContent",1079607,9216085,0.3202987
+"C:/Users/kylej/source/repos/ShootingGallery/Content/target.png","C:/Users/kylej/source/repos/ShootingGallery/Content/bin/DesktopGL/target.xnb","TextureProcessor","Texture2DContent",3395,32485,0.0173606

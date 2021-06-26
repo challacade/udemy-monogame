@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Profile>Reach</Profile>
+  <Platform>DesktopGL</Platform>
+  <Config />
+  <SourceFiles>
+    <File>C:/Users/kylej/source/repos/Spaceship/Content/asteroid.png</File>
+    <File>C:/Users/kylej/source/repos/Spaceship/Content/ship.png</File>
+    <File>C:/Users/kylej/source/repos/Spaceship/Content/space.png</File>
+    <File>C:/Users/kylej/source/repos/Spaceship/Content/spaceFont.spritefont</File>
+    <File>C:/Users/kylej/source/repos/Spaceship/Content/timerFont.spritefont</File>
+  </SourceFiles>
+  <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+  </DestFiles>
+</SourceFileCollection>

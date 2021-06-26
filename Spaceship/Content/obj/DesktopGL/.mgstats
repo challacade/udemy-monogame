@@ -1,0 +1,6 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/kylej/source/repos/Spaceship/Content/asteroid.png","C:/Users/kylej/source/repos/Spaceship/Content/bin/DesktopGL/asteroid.xnb","TextureProcessor","Texture2DContent",17495,53893,0.2935264
+"C:/Users/kylej/source/repos/Spaceship/Content/ship.png","C:/Users/kylej/source/repos/Spaceship/Content/bin/DesktopGL/ship.xnb","TextureProcessor","Texture2DContent",3015,27285,0.0117918
+"C:/Users/kylej/source/repos/Spaceship/Content/space.png","C:/Users/kylej/source/repos/Spaceship/Content/bin/DesktopGL/space.xnb","TextureProcessor","Texture2DContent",1018006,12582997,0.3760641
+"C:/Users/kylej/source/repos/Spaceship/Content/spaceFont.spritefont","C:/Users/kylej/source/repos/Spaceship/Content/bin/DesktopGL/spaceFont.xnb","FontDescriptionProcessor","SpriteFontContent",2065,136226,0.174469
+"C:/Users/kylej/source/repos/Spaceship/Content/timerFont.spritefont","C:/Users/kylej/source/repos/Spaceship/Content/bin/DesktopGL/timerFont.xnb","FontDescriptionProcessor","SpriteFontContent",2065,70690,0.029348
